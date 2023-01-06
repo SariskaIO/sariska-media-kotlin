@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="blob_provider_authority">io.sariskakotlindemo.blob</string>
 </resources>
