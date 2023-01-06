@@ -12,6 +12,7 @@ import io.sariska.sdk.SariskaMediaTransport
 import io.sariska.sdk.Connection
 import io.sariska.sdk.JitsiLocalTrack
 import io.sariska.sdk.JitsiRemoteTrack
+import java.lang.Thread
 
 class MainActivity : AppCompatActivity() {
     lateinit var conference: Conference
@@ -35,12 +36,17 @@ class MainActivity : AppCompatActivity() {
         mLocalContainer = findViewById(R.id.local_video_view_container)
         mRemoteContainer = findViewById(R.id.remote_video_view_container)
         setupLocalStream()
-        val token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImRkMzc3ZDRjNTBiMDY1ODRmMGY4MDJhYmFiNTIyMjg5ODJiMTk2YzAzNzYwNzE4NDhiNWJlNTczN2JiMWYwYTUiLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiIxMjM0NSIsIm5hbWUiOiJKb2huIFNtaXRoIiwiZW1haWwiOiJleGFtcGxlQGVtYWlsLmNvbSIsIm1vZGVyYXRvciI6dHJ1ZX0sImdyb3VwIjoiMjAyIn0sInN1YiI6InF3ZnNkNTdwcTlkeGFrcXF1cTZzZXEiLCJyb29tIjoiKiIsImlhdCI6MTY3MzAwMzQxOCwibmJmIjoxNjczMDAzNDE4LCJpc3MiOiJzYXJpc2thIiwiYXVkIjoibWVkaWFfbWVzc2FnaW5nX2NvLWJyb3dzaW5nIiwiZXhwIjoxNjczMDg5ODE4fQ.MPBoDvsyOyYRYdSEcQFn0GMPm6Tbnxsd0YtynDMyIu6NP29JHqxQxyXMWO6g1ONC7gB8c-hdidQRMxZv-Je3QAtcZMR4PFu5SfGPPEKJHH8SBtoHvYREsE4VpKpkcAsdvWTd9NxwMQjH6AnWAtdOJ4nVUMKG20cj6LhCZuHXHC6ptyOKmcefgfmQTAd4vxQ37e3Ru0aHMRW8gFrFMLYeFm9Kq3UQc3RRQqKpQOGQ0WfZ4EqgpalL65ZAdgLYZQ0U2J7KlT2hZp7VrRz4lCgEy6tgTOTRuNojtScq_ZeS9v79okmX9WHMWJJVhj3PyZjzUTK_Nigo0yx1DyDVIwMHrA"
-        connection = SariskaMediaTransport.JitsiConnection(token, "dipak", false)
-        connection.addEventListener("CONNECTION_ESTABLISHED", { createConference() })
-        connection.addEventListener("CONNECTION_FAILED", {})
-        connection.addEventListener("CONNECTION_DISCONNECTED", {})
-        connection.connect()
+
+        val thread = Thread(Runnable {
+            val token = GetToken.generateToken("user");
+            connection = SariskaMediaTransport.JitsiConnection(token, "dipak", false)
+            connection.addEventListener("CONNECTION_ESTABLISHED", { createConference() })
+            connection.addEventListener("CONNECTION_FAILED", {})
+            connection.addEventListener("CONNECTION_DISCONNECTED", {})
+            connection.connect()
+        })
+
+        thread.start()
     }
 
     fun setupLocalStream() {
