@@ -7,11 +7,11 @@ import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.oney.WebRTCModule.WebRTCView
-import org.sariska.sdk.Conference
-import org.sariska.sdk.Connection
-import org.sariska.sdk.JitsiLocalTrack
-import org.sariska.sdk.JitsiRemoteTrack
-import org.sariska.sdk.SariskaMediaTransport
+import io.sariska.sdk.Conference
+import io.sariska.sdk.SariskaMediaTransport
+import io.sariska.sdk.Connection
+import io.sariska.sdk.JitsiLocalTrack
+import io.sariska.sdk.JitsiRemoteTrack
 
 class MainActivity : AppCompatActivity() {
     lateinit var conference: Conference
@@ -31,12 +31,12 @@ class MainActivity : AppCompatActivity() {
         if (!hasPermissions(this, *PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL)
         }
-        SariskaMediaTransport.init(application) // initialize sdk
+        SariskaMediaTransport.initializeSdk(application) // initialize sdk
         mLocalContainer = findViewById(R.id.local_video_view_container)
         mRemoteContainer = findViewById(R.id.remote_video_view_container)
         setupLocalStream()
         val token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjI0ZmQ2ZjkyZDZkMDE3NDkyZTNlOThlMzM0ZWJhZmM3NmRkMzUwYmI5M2EwNzI5ZDM4IiwidHlwIjoiSldUIn0.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJ6dG5reWw3biIsIm5hbWUiOiJqaiJ9LCJncm91cCI6Imc3cWtua205YWJ0cDFuYWd2eXk1ZnUifSwic3ViIjoiMiIsInJvb20iOiJwNHN1anR5YWsiLCJpYXQiOjE2MTg0NDMxNTksIm5iZiI6MTYxODQ0MzE1OSwiaXNzIjoic2FyaXNrYSIsImF1ZCI6Im1lZGlhX21lc3NhZ2luZ19zYXJpc2thIiwiZXhwIjoxNjE4NTI5NTU5fQ.dhGrKmmRE7E1Mr_Hp3Nu9VSoR7mMEmYz5nI-Fp8ZR97wOXMdvvgjUA_xr2ghYTMP6DGm81MztqsJFW5BSZ18D5ejtx11MyjdTDcsVBiVXNmUO7C6KCHHPDEjRirC1mNc5d9V7Unta-Fo6K6oLyWnsPyfctXdrURk8ChrnXPyHvX_TiZalotdkmChooTbCQlL8SNRk-j8-HVWToYxukv7aB7AvTSvh_e9xshAlsZMzO9dfoenkMH4XILfxCfcWcj-gdfZnflwSu5kpBW6CmY-I9Fe6M4DUGamNplgyua3xe1olwXMe-Ofo48-Yu0vkHbE4ssuoMEsgm0vCt7GXTRd2w"
-        connection = SariskaMediaTransport.JitsiConnection(token)
+        connection = SariskaMediaTransport.JitsiConnection(token, "dipak", false)
         connection.addEventListener("CONNECTION_ESTABLISHED", { createConference() })
         connection.addEventListener("CONNECTION_FAILED", {})
         connection.addEventListener("CONNECTION_DISCONNECTED", {})
